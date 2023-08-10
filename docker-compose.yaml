@@ -1,0 +1,30 @@
+version: '3'
+services:
+  frontend:
+    container_name: travelto-frontend
+    build: ./app/frontend
+    ports:
+      - 3000:3000
+    working_dir: /app-frontend
+    volumes:
+      - ./app/frontend:/app-frontend
+  backend:
+    container_name: travelto-backend
+    build: ./app/backend
+    ports:
+      - 3001:3001
+    working_dir: /app-backend
+    command: dev
+    volumes:
+      - ./app/backend:/app-backend
+    environment:
+      - DB_USERNAME=localhost
+      - DB_PASSWORD=travelto1011
+      - DB_NAME=travelto_db
+      - MONGO_DB_URI=mongodb://localhost:27017/travelto
+      - APP_PORT=3001
+  mongodb:
+    container_name: travelto_db
+    image: mongo:5.0.7
+    ports:
+      - 27017:27017
